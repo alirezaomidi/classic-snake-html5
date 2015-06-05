@@ -5,4 +5,4 @@ A simple classic snake game with:
 1. HTML 5
 2. JavaScript and Jquery
 
-### [Play The Game!](alirezaomidi.github.io/classic-snake-html5)
+### [Play The Game!](http://alirezaomidi.github.io/classic-snake-html5)
