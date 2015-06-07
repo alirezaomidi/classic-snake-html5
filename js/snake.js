@@ -5,7 +5,7 @@ $(document).ready(function() {
     var h = canvas.height;
     var w = canvas.width;
     var unit = 10; // cell size
-    var interval = 100; // game interval
+    var interval = 60; // game interval
 
     var snake; // snake array
     var snake_size; // length of snake
@@ -14,18 +14,30 @@ $(document).ready(function() {
     var food; // the food
 
     var score; // the score; starts from 0
+    var best = 0; // the best score
 
     // the initial function
     function init() {
         snake_size = 5;
         score = 0;
+        clear_screen();
         create_snake();
         paint_snake();
         create_food();
         paint_food();
+        update_score();
         direction = 'right';
+    }
+
+    // start the game loop
+    function start() {
         if (typeof game_loop != 'undefined') clearInterval(game_loop);
         game_loop = setInterval(turn, interval);
+    }
+
+    // stop the game loop
+    function stop() {
+        clearInterval(game_loop);
     }
 
     // genereal function to paint a cell
@@ -38,7 +50,7 @@ $(document).ready(function() {
     function create_snake() {
         snake = [];
         for (var i = snake_size - 1; i >= 0; i--) {
-            snake.push({x: i, y: 0});
+            snake.push({x: i + 5, y: 5});
         }
     }
 
@@ -46,7 +58,7 @@ $(document).ready(function() {
         food = {
             x: Math.round(Math.random() * (w - unit) / unit),
             y: Math.round(Math.random() * (h - unit) / unit)
-        }
+        };
     }
 
     function paint_food() {
@@ -79,7 +91,7 @@ $(document).ready(function() {
         }
 
         // check for food
-        if (collision_check(food, new_head) == false) {
+        if (collision_check(food, new_head) === false) {
             snake.pop();
         } else {
             create_food();
@@ -131,10 +143,13 @@ $(document).ready(function() {
         return false;
     }
 
-    // paints the score in the left-down corner of the canvas
-    function paint_score() {
-        var score_text = "Score: " + score;
-        ctx.fillText(score_text, 5, h - 5);
+    // updates score in score container
+    function update_score() {
+        $(".score-container").text(score);
+        if (score > best) {
+            best = score;
+        }
+        $(".best-container").text(best);
     }
 
     // the function which executes every $interval milliseconds
@@ -142,10 +157,12 @@ $(document).ready(function() {
         clear_screen();
         paint_snake();
         paint_food();
-        paint_score();
+        update_score();
         if (game_over_check()) {
             clear_screen();
+            stop();
             init();
+            $(".menu").show();
         }
         move_snake();
     }
@@ -161,5 +178,11 @@ $(document).ready(function() {
         if (key == '38' && direction != 'down') direction = 'up';
         if (key == '39' && direction != 'left') direction = 'right';
         if (key == '40' && direction != 'up') direction = 'down';
-    })
-})
+    });
+
+    // onclick event listeners
+    $(".start").on("click", function() {
+        $(".menu").hide();
+        start();
+    });
+});
