@@ -1,0 +1,50 @@
+@font-face {
+    font-family: silkscreen;
+    src: url(../font/slkscr.ttf);
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: silkscreen-bold;
+    src: url(../font/slkscrb.ttf);
+    font-weight: bold;
+}
+
+.container {
+    width: 500px;
+    margin: 0 auto;
+    font-family: silkscreen;
+}
+
+.title {
+    float: left;
+    font-family: silkscreen-bold;
+    font-size: 3em;
+    margin: 10px auto;
+}
+
+.scores-container {
+    float: right;
+}
+
+.score-container:before {
+    content: "Score: ";
+}
+
+.best-container:before {
+    content: "Best: ";
+}
+
+.score-container:before .best-container:best {
+    /*position: absolute;*/
+    width: 100%;
+    /*text-align: center;*/
+}
+
+.menu {
+    text-align: center;
+}
+
+.start {
+    font-size: 2em;
+}
