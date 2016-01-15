@@ -6,6 +6,8 @@ $(document).ready(function() {
     var w = canvas.width;
     var unit = 10; // cell size
     var interval = 60; // game interval
+    var game_loop = 0; // game loop
+    var initialized = false;
 
     var snake; // snake array
     var snake_size; // length of snake
@@ -27,10 +29,13 @@ $(document).ready(function() {
         paint_food();
         update_score();
         direction = 'right';
+        initialized = true;
     }
 
     // start the game loop
     function start() {
+        if (!initialized) init();
+        $(".menu").hide();
         if (typeof game_loop != 'undefined') clearInterval(game_loop);
         game_loop = setInterval(turn, interval);
     }
@@ -38,6 +43,8 @@ $(document).ready(function() {
     // stop the game loop
     function stop() {
         clearInterval(game_loop);
+        game_loop = 0;
+        initialized = false;
     }
 
     // genereal function to paint a cell
@@ -62,6 +69,7 @@ $(document).ready(function() {
     }
 
     function paint_food() {
+        console.log(food);
         paint_cell(food);
     }
 
@@ -145,10 +153,8 @@ $(document).ready(function() {
 
     // updates score in score container
     function update_score() {
+        best = Math.max(best, score);
         $(".score-container").text(score);
-        if (score > best) {
-            best = score;
-        }
         $(".best-container").text(best);
     }
 
@@ -159,10 +165,11 @@ $(document).ready(function() {
         paint_food();
         update_score();
         if (game_over_check()) {
-            clear_screen();
+            // clear_screen();
             stop();
-            init();
+            // init();
             $(".menu").show();
+            return;
         }
         move_snake();
     }
@@ -178,11 +185,11 @@ $(document).ready(function() {
         if (key == '38' && direction != 'down') direction = 'up';
         if (key == '39' && direction != 'left') direction = 'right';
         if (key == '40' && direction != 'up') direction = 'down';
+        if (key == '32' && game_loop == 0) start();
     });
 
     // onclick event listeners
     $(".start").on("click", function() {
-        $(".menu").hide();
         start();
     });
 });
