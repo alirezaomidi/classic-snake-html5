@@ -65,8 +65,21 @@ $(document).ready(function() {
         food = {
             x: Math.round(Math.random() * (w - unit) / unit),
             y: Math.round(Math.random() * (h - unit) / unit)
-        };
+		// if the food spawns inside the snake, call create_food() again
+		if (contains(snake, food)) {
+			create_food();
+		}
     }
+	
+	function contains(array, obj) {
+		var i = array.length;
+		while (i--) {
+		   if (JSON.stringify(array[i]) === JSON.stringify(obj)) {
+			   return true;
+		   }
+		}
+		return false;
+	}
 
     function paint_food() {
         console.log(food);
