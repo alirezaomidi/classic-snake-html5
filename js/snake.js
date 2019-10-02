@@ -67,9 +67,9 @@ $(document).ready(function() {
             y: Math.round(Math.random() * (h - unit) / unit)
         };
         // if the food spawns inside the snake, call create_food() again
-		if (snake.includes(food)) {
-			create_food();
-		};
+	if (snake.includes(food)) {
+		create_food();
+	};
     }
 
     function paint_food() {
