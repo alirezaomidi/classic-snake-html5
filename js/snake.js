@@ -65,6 +65,7 @@ $(document).ready(function() {
         food = {
             x: Math.round(Math.random() * (w - unit) / unit),
             y: Math.round(Math.random() * (h - unit) / unit)
+        }
 		// if the food spawns inside the snake, call create_food() again
 		if (contains(snake, food)) {
 			create_food();
